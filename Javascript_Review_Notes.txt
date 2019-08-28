@@ -1,0 +1,141 @@
+***********************************************************************************************************************************************
+JAVASCRIPT REVIEW NOTES (ADD MORE IF I FIND MORE IMPORTANT JS QUESTIONS)
+***********************************************************************************************************************************************
+
+What's the difference between a class component and a functional component?
+
+	- Class Component
+		- can manage the state
+		- typically used for containers
+		- does not receive properties
+		- able to use lifecycle hooks (because of inheriting the React Component library)
+		
+	- Functional Component
+		- typically cannot manage the state (however react hooks allow you to manage state in a FC)
+		- used for components
+		- does receive a set of properties
+		- able to use React Hooks
+
+What are some of the lifecycle methods of a React component?
+
+	- the following are the most commonly used
+		- componentDidMount
+		- componentDidUpdate
+		- componentWillUnmount
+		- render
+		- constructor
+
+What's the difference between a PureComponent and a Component?
+
+	- PureComponent does a SHALLOW COMPARISON on state change
+		- when comparing scalar values it compares values but, when comparing objects, it compares only references
+			- helps to improve performance
+			
+	- When to use PureComponent?
+		- when state/props is an immutable object
+		- when state/props has no hierarchy
+		- should call forceUpdate when data changes
+	
+What's the difference between props and state?
+
+	- PROPS
+		- passed to functional components
+		
+	- STATE
+		- managed by class components
+
+What are reference types and what are value types?
+
+What does it mean to mutate a reference type?
+
+What does it mean to enforce immutability?
+
+	- typically applies to maintaining state in react: 
+		- when you modify the state, you are not directly modifying the state object, but rather
+		are making a copy of the current state, modifying the copy, then using that copy to update the state. 
+
+What happens if you mutate an object stored in a component's state?
+
+	- there is a possibility that the modifications you have made to "this.state" will be overwritten and will not be reflected upon re-render.
+
+What are hooks? (full disclosure, I don't actually know anything about them because we don't use them yet, but they're the new hotness in React apparently)
+
+	- React hooks allow you to modify state within functional components.
+		- Previously were not able to and could only modify state within containers or using Redux.
+		- typically have a "useSomething" type of naming, some of the most important:
+			- useState
+			- useEffect
+	
+	- Some important rules:
+		- only call them at the top level (not inside of loops, conditions, nested functions)
+		- only call them from React function components
+
+React Router
+
+	- allows you to define what components will load when a certain url is navigated to:
+		- simply wrap your application with the built in React Router
+		- ex. <Router><App /></Router>
+		- Now routers are as easy to define as: <Link to="/">Home</Link> ... some other code ... <Route path="/" exact component={Index} />
+			- When a user clicks on the "Home" link, the router will handle the URL and in turn render the "Index" component.
+			- a VERY important tool for creating single-page applications in React.
+
+Redux
+
+	- tool that is SEPARATE FROM REACT that is use to manage state.
+
+    Reducers
+	
+		- These files catch "dispatch" functions and perform updates to the state based on the action that was dispatched.
+	
+    Action Creators
+	
+		- These do exactly as they are named, they create actions that are performed by users when interacting with the application.
+			- they dispatch actions that are then handled by the reducers to ultimately modify the state in Redux.
+	
+    Store
+	
+		- The state that is managed by redux.
+		
+    Flux architecture (one-way data flow) ~~~ look into this some more
+	
+		- defining state and functions that are passed from parents to their children to create a functional application.
+			- children are NOT passing state or functions back to their parents.
+		
+		- In this situation, Redux would be defining all of the state variables/functions and passing them doing to the parents which can then pass them to the children
+		(redux can even pass them directly to the children). 
+
+Testing:
+    Tools like Enzyme, Jest
+    How would you test a component?
+
+Build process tools:
+    What is Webpack/what does it do? ~~~ look more into this (get an internet dictionary style definition)
+	
+		- webpack is a compiler tool, essentially takes all of your source files and merges them together to make your application smaller and ultimately increase performance of an application when
+		it reaches production
+	
+    What is Babel/what does it do?
+	
+		- allows modern Javascript code ES6+ to be compiled into ES5 so it is able to be understood by any browser.
+			- certain browsers cannot understand ES6+ code so something like Babel is very important unless you want to be stuck only writing ES5 Javascript.
+
+General JavaScript/ES6
+    promises
+    async/await (not something we use, but it's the new promises apparently)
+    spread operator
+    template literals
+    Array.reduce
+    Array.map
+    composition pattern
+    inheritance
+    design patterns (a little dated now, but still) https://addyosmani.com/resources/essentialjsdesignpatterns/book/
+    what a polyfill is
+    JavaScript modules
+        - named exports
+        - default exports
+    Gotchas
+        === vs ==
+        how inheritance and prototypes work
+        const vs let vs var
+        closure
+        general understand of async vs. sync code
