@@ -46,7 +46,27 @@ What's the difference between props and state?
 
 What are reference types and what are value types?
 
+	reference types:
+		- objects
+		- arrays
+		- functions
+		
+	value types:
+		- strings
+		- numbers
+		- booleans
+		- null
+		- undefined
+
 What does it mean to mutate a reference type?
+
+	- modifying certain properties of an existing object:
+		- var obj1 = {
+			name: 'Sean',
+			age: 25
+		};
+		obj1.age = 30;
+		console.log(obj1); //{ name: 'Sean', age: 30 }
 
 What does it mean to enforce immutability?
 
@@ -106,7 +126,16 @@ Redux
 
 Testing:
     Tools like Enzyme, Jest
+	
+		- can use jest with enzyme to test components in your react app.
+		
     How would you test a component?
+	
+		- make a shallow copy of the component (renders the component "one level deep" and asserts facts about what its render method returns, without worrying about behavior of child components)
+		
+			- feed the component mocks of all of the data and functions it is expected to consume.
+			
+				- validate that when the component consumes certain properties and functions, it renders in its expected way
 
 Build process tools:
     What is Webpack/what does it do? ~~~ look more into this (get an internet dictionary style definition)
@@ -120,22 +149,154 @@ Build process tools:
 			- certain browsers cannot understand ES6+ code so something like Babel is very important unless you want to be stuck only writing ES5 Javascript.
 
 General JavaScript/ES6
+
     promises
+	
+		- when a call is made to perform an asynchronous action that may take a certain amount of time, a promise is returned
+			- either results in some data being returned, or an error
+				- can be handled by async/await or by using .then and .catch
+				
     async/await (not something we use, but it's the new promises apparently)
+		
+		- method for handling promises
+			- can define a function as asynchronous
+				- then you can make "await" calls inside of a try block for every asynchronous function
+					- ex. async function () {
+						try{
+							const something = await asyncFunction();
+							//all of the code below the await call will wait to run and will run successfully if the function is successful
+						}
+						catch(error){
+							console.log(error)
+						}
+					}
+	
     spread operator
+	
+		- literally allows you to spread values across function parameters or a new object:
+			ex: function(x, y, z){
+				//does something
+			}
+			var arr = [1, 2, 3];
+			function(...arr); //spreads the values to their corresponding index argument
+			
+			or 
+			
+			var obj1 = { var1: 1, var2: 2, var3: 3 }
+			var obj2 = { var4: 4, ...obj1 } //fills three more spots of obj2 with the values of obj1 so it would look like {var4: 4, var1: 1, var2: 2, var3: 3}
+			
+		- USED VERY OFTEN IN REACT TO ENFORCE IMMUTABILITY OF OBJECTS AND ARRAYS IN STATE
+		
     template literals
+	
+		- method to dynamically pass values to a string in javascript
+			- instead of having to use "some sentence with a random variable with value: " + randomVar + " in Javascript!".
+			- you can use the backticks ` ` and do the same as above like so: `some sentence with a random variable with value: ${randomVar} in Javascript!`
+			
     Array.reduce
+	
+		- executes a reducer function each element of the array that results in a single output value
+			- ex: [0, 1, 2, 3, 4].reduce(function(accumulator, currentValue, currentIndex, array) {
+				return accumulator + currentValue;
+			});
+			- accumulator starts at zero and adds each value of the array one by one until 10 is ultimately returned
+			
     Array.map
+	
+		- method of iterating and performing some sort of action onto each member of an array to ultimately return a new array:
+			- randomArrayList.map(randomArrayMember => {
+				//do something to randomArrayMember
+			})
+			
     composition pattern
+	
+		- design pattern that describes a group of objects that is treated the same way as a single instance of the same type of object.
+			example: a file system. there can be one parent directory that contains many files but can also contain more directories. the different objects
+			act the same way no matter where they are in the entire structure.
+			
+				- if i call some function on one directory it should act the same way as if I called it on any other directory. The case is the same with a file itself.
+		
     inheritance
-    design patterns (a little dated now, but still) https://addyosmani.com/resources/essentialjsdesignpatterns/book/
+	
+		- a method for one class to inherit methods and variables from another class.
+		
+			- most common example in React are class components
+				- class MyComponent extends Component
+					- This allows MyComponent to be able to use all of the member functions of Component (most importantly being able to use state and the lifecycle hooks)
+					
     what a polyfill is
+		
+		- a piece of code used to provide modern functionality on older browsers that do not natively support it
+			- ex: could mimic the functionality of an HTML Canvas element on IE7 using a silverlight plugin.
+		- not used exclusively because they reduce functionality and performance
+		
     JavaScript modules
         - named exports
+		
+			- specifying one particular method or class that you'd like to import from another javascript library that contains multiple exports
+		
         - default exports
+		
+			- importing all classes/functions from another javascript library that only has one "export default" statement inside of it
+			
     Gotchas
         === vs ==
+		
+			- === compares value and type whereas == only compares value and can perform type coercion 
+				(type coercion being js is smart enough to try different types for the values on both side of the "==", for example it would know that "2"==2 would equal true because
+				it would coerce the "2" to a number type and therefore the two sides would be the same type.)
+			
         how inheritance and prototypes work
         const vs let vs var
+		
+			- const
+				- never can be modified through reassignment and cannot be redeclared
+				- block scope
+				
+			- let
+				- can be modified
+				- block scope
+				
+			- var
+				- can be modified
+				- global scope
+				
+				block scope -
+					- the variable is only usable inside of the block it is defined in:
+						function random(){
+							let x =1:
+							if(true){
+								let x = 2; //BECAUSE IT IS IN THIS BLOCK THIS X HAS A DIFFERENT SCOPE THAN THE PREVIOUS X
+								console.log(x) //2
+							}
+							console.log(x) //1 - BECAUSE THE VALUE OF THE VARIABLE IS 1 IN THIS SCOPE
+						}
+				global scope -
+					- the variable can be referenced inside of any of the child blocks of the block it is defined in:
+						function random(){
+							var x = 1;
+							if(true){
+								var x = 2; //BECAUSE OF GLOBAL SCOPE THIS IS RECOGNIZED AS THE SAME X DEFINED IN THE PREVIOUS LINES
+								console.log(x); //2
+							}
+							console.log(x); //2 - BECAUSE THE VARIABLE IS GLOBAL AND WAS RECOGNIZED AS THE SAME X, ITS VALUE WAS ABLE TO BE CHANGED AND CARRIED OUT OF THE OTHER BLOCK
+						}
+						
         closure
+		
+			- child functions are able to access parameters passed to parent functions:
+			
+				function parentFunction(name) {
+				
+					return function childFunction1(var1){
+						return `hello ${var1} my name is ${name}`;
+					}
+				
+				}
+				
+				const child = parentFunction("john");
+				console.log(child("bob")); //hello bob my name is john
+				
         general understand of async vs. sync code
+		
+			- synchronous code is put onto the event stack and runs immediatelly, async code runs on the web apis and then is placed back onto the event stack when it is complete (returning either data or an error)
